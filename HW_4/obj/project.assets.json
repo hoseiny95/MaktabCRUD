@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\c project\\HW_4\\HW_4\\HW_4.csproj",
+      "projectUniqueName": "E:\\c project\\MaktabCRUD\\HW_4\\HW_4.csproj",
       "projectName": "HW_4",
-      "projectPath": "E:\\c project\\HW_4\\HW_4\\HW_4.csproj",
+      "projectPath": "E:\\c project\\MaktabCRUD\\HW_4\\HW_4.csproj",
       "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-      "outputPath": "E:\\c project\\HW_4\\HW_4\\obj\\",
+      "outputPath": "E:\\c project\\MaktabCRUD\\HW_4\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
