@@ -123,11 +123,20 @@ namespace HW_4.Repository
         }
         public int numberofusers()
         {
-            FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
-            BinaryFormatter bf = new BinaryFormatter();
-            List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
-            stream.Close();
-            return (int)jasontoobject.Count;
+            if (!File.Exists(mainpath))
+            {
+                return 0;
+            }
+            else
+            {
+                FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
+                BinaryFormatter bf = new BinaryFormatter();
+                List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
+                stream.Close();
+                return (int)jasontoobject.Count;
+
+            }
+               
 
         }
         public Person Search(int id)
