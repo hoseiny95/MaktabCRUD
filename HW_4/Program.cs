@@ -4,11 +4,13 @@ using Newtonsoft.Json;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 
+CRUDRepository crudrepository = new CRUDRepository();
 Person person = new Person()
-{ID=1,FirstName = "masi", Mobile = 9121154379, BirthDate = new DateTime(2003, 1, 1), CreateUser = DateTime.Now 
+{ID= crudrepository.numberofusers() + 1,
+    FirstName = "masi", Mobile = 9121154379, BirthDate = new DateTime(2003, 1, 1), CreateUser = DateTime.Now 
  };
 
-CRUDRepository crudrepository = new CRUDRepository();
+
 crudrepository.Create(person);
 
 bool check = true;
