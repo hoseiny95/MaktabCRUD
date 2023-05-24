@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace HW_4.Repository
 {
-    public  interface ICRUDRepository<T>
+    public  interface ICRUDRepository
     {
-        void Create(T obj);
-        void Update(T obj);
+        void Create(Person obj);
+        void Update(Person obj);
 
-        void Delete(T obj);
-        void Read (T obj);
+        void Delete(Person obj);
+        void Read (Person obj);
     }
 }
