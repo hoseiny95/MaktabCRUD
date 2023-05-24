@@ -9,9 +9,9 @@ namespace HW_4.Repository
     public  interface ICRUDRepository
     {
         void Create(Person obj);
-        void Update(Person obj, Person old);
+        void Update(Person obj, Predicate<Person> pre);
 
-        void Delete(Person obj);
-        List<Person> Read (Person obj);
+        void Delete(Predicate<Person> pre);
+        List<Person> Read ();
     }
 }

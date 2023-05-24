@@ -52,11 +52,11 @@ namespace HW_4.Repository
                     BinaryFormatter bf2 = new BinaryFormatter();
                     bf2.Serialize(stream2, jasontoobject);
                     stream2.Close();
-                    //string csvHeaderRow = String.Join(",", typeof(Person).GetProperties(BindingFlags.Public | BindingFlags.Instance).Select(x => x.Name).ToArray<string>()) + Environment.NewLine;
-                    //string csv = csvHeaderRow + String.Join(Environment.NewLine, jasontoobject.Select(x => x.ToString()).ToArray());
-                    //string csvpath = @"E:\c project\MaktabCRUD\HW_4\person.csv";
-                    //File.WriteAllText(csvpath, csv.ToString());
-                    //File.WriteAllText(mainpath, objectinjason);
+                    string csvHeaderRow = String.Join(",", typeof(Person).GetProperties(BindingFlags.Public | BindingFlags.Instance).Select(x => x.Name).ToArray<string>()) + Environment.NewLine;
+                    string csv = csvHeaderRow + String.Join(Environment.NewLine, jasontoobject.Select(x => x.ToString()).ToArray());
+                    string csvpath = @"E:\c project\MaktabCRUD\HW_4\person.csv";
+                    File.WriteAllText(csvpath, csv.ToString());
+                   
                 }
                 catch
                 {
@@ -77,13 +77,13 @@ namespace HW_4.Repository
 
         }
 
-        public void Delete(Person obj)
+        public void Delete(Predicate<Person> pre)
         {
             FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
             BinaryFormatter bf = new BinaryFormatter();
             List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
             stream.Close();
-            jasontoobject.Remove(obj);
+            jasontoobject.RemoveAll(pre);
             FileStream stream2 = new FileStream(mainpath, FileMode.Open, FileAccess.Write);
             BinaryFormatter bf2 = new BinaryFormatter();
             bf2.Serialize(stream2, jasontoobject);
@@ -92,16 +92,45 @@ namespace HW_4.Repository
 
         }
 
-        public List<Person> Read(Person obj)
+        public List<Person> Read()
         {
             FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
             BinaryFormatter bf = new BinaryFormatter();
             List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
             stream.Close();
+            foreach (Person obj in jasontoobject)
+            {
+                Console.WriteLine(obj.ToString());
+            }
             return jasontoobject;
         }
 
-        public void Update(Person obj,Person old)
+        public void Update(Person obj, Predicate<Person> pre)
+        {
+            FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
+            stream.Close();
+            jasontoobject.RemoveAll(pre);
+            jasontoobject.Add(obj);
+            FileStream stream2 = new FileStream(mainpath, FileMode.Open, FileAccess.Write);
+            BinaryFormatter bf2 = new BinaryFormatter();
+            bf2.Serialize(stream2, jasontoobject);
+            stream2.Close();
+
+
+
+        }
+        public int numberofusers()
+        {
+            FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
+            stream.Close();
+            return (int)jasontoobject.Count;
+
+        }
+        public Person Search(int id)
         {
             FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
             BinaryFormatter bf = new BinaryFormatter();
@@ -109,15 +138,13 @@ namespace HW_4.Repository
             stream.Close();
             foreach (Person person in jasontoobject)
             {
-                if (person.ID == old.ID)
+                if (person.ID == id)
                 {
-                    person.FirstName=obj.FirstName;
-                    person.Mobile=obj.Mobile;
-                    person.BirthDate=obj.BirthDate;
-                    person.CreateUser = DateTime.Now;
+                    return person;
                 }
+                
             }
-            
+            return null;
 
         }
     }
