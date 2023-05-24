@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,7 @@ namespace HW_4.Repository
                 bf.Serialize(stream, mainlist);
                 stream.Close();
 
-                //string objectinjason= JsonConvert.SerializeObject(obj,Formatting.Indented);
+                //string objectinjason = JsonConvert.SerializeObject(obj, Formatting.Indented);
                 //File.WriteAllText(mainpath, objectinjason);
 
             }
@@ -51,22 +52,22 @@ namespace HW_4.Repository
                     BinaryFormatter bf2 = new BinaryFormatter();
                     bf2.Serialize(stream2, jasontoobject);
                     stream2.Close();
+                    //string csvHeaderRow = String.Join(",", typeof(Person).GetProperties(BindingFlags.Public | BindingFlags.Instance).Select(x => x.Name).ToArray<string>()) + Environment.NewLine;
+                    //string csv = csvHeaderRow + String.Join(Environment.NewLine, jasontoobject.Select(x => x.ToString()).ToArray());
+                    //string csvpath = @"E:\c project\MaktabCRUD\HW_4\person.csv";
+                    //File.WriteAllText(csvpath, csv.ToString());
+                    //File.WriteAllText(mainpath, objectinjason);
                 }
-                catch 
-                { 
+                catch
+                {
 
                 }
 
 
-                // string filejason=File.ReadAllText(mainpath);
+                //string filejason = File.ReadAllText(mainpath);
 
-                //var list = JsonConvert.DeserializeObject<List<T>>(file).Options.Select(x => new Options() { OptionId = int.Parse(x.Key), OptionName = x.Value }).ToList();
-                //var file = JsonConvert.DeserializeObject(mainpath);
-                //var jasontolist = JsonConvert.DeserializeObject(filejason);
-                //foreach (var item in jasontolist)
-                //{
+                //List<Person> jasontolist = JsonConvert.DeserializeObject<List<Person>>(filejason);
 
-                //}
                 //mainlist.AddRange(jasontolist);
                 //mainlist.Add(obj);
                 //string objectinjason = JsonConvert.SerializeObject(mainlist);
@@ -78,12 +79,26 @@ namespace HW_4.Repository
 
         public void Delete(Person obj)
         {
-            throw new NotImplementedException();
+            FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
+            stream.Close();
+            jasontoobject.Remove(obj);
+            FileStream stream2 = new FileStream(mainpath, FileMode.Open, FileAccess.Write);
+            BinaryFormatter bf2 = new BinaryFormatter();
+            bf2.Serialize(stream2, jasontoobject);
+            stream2.Close();
+
+
         }
 
-        public void Read(Person obj)
+        public List<Person> Read(Person obj)
         {
-            throw new NotImplementedException();
+            FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
+            stream.Close();
+            return jasontoobject;
         }
 
         public void Update(Person obj)

@@ -12,6 +12,6 @@ namespace HW_4.Repository
         void Update(Person obj);
 
         void Delete(Person obj);
-        void Read (Person obj);
+        List<Person> Read (Person obj);
     }
 }
