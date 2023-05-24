@@ -101,9 +101,24 @@ namespace HW_4.Repository
             return jasontoobject;
         }
 
-        public void Update(Person obj)
+        public void Update(Person obj,Person old)
         {
-            throw new NotImplementedException();
+            FileStream stream = new FileStream(mainpath, FileMode.Open, FileAccess.Read);
+            BinaryFormatter bf = new BinaryFormatter();
+            List<Person> jasontoobject = (List<Person>)bf.Deserialize(stream);
+            stream.Close();
+            foreach (Person person in jasontoobject)
+            {
+                if (person.ID == old.ID)
+                {
+                    person.FirstName=obj.FirstName;
+                    person.Mobile=obj.Mobile;
+                    person.BirthDate=obj.BirthDate;
+                    person.CreateUser = DateTime.Now;
+                }
+            }
+            
+
         }
     }
 }

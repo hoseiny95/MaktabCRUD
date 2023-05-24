@@ -11,9 +11,9 @@ namespace HW_4
     [Serializable]
     public partial class Person
     {
-
-        
+        [key]
         public int ID { get; set; }
+        
         public string FirstName  { get; set; }
         
        
@@ -22,7 +22,7 @@ namespace HW_4
         public DateTime CreateUser { get; set; }
         public override string ToString()
         {
-            return this.ID + "," + "," + this.FirstName+"," +","
+            return this.ID +  "," + this.FirstName+"," 
                 + this.Mobile +"," +this.BirthDate +","+this.CreateUser;
         }
 
