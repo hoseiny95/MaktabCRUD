@@ -18,83 +18,91 @@ bool check = true;
 //DateTime dateFromString =
 //    DateTime.Parse(dateString);
 //Console.WriteLine(dateFromString.ToString());
-do
+try
 {
-    Console.WriteLine("enter your mode \n 1 for crate user \n 2 for delete user \n 3 for show users \n 4 for update user  \n 5 for exite");
-    int num = int.Parse(Console.ReadLine());
-    if (num == 1)
+    do
     {
-        Console.WriteLine("insert name,mobile,birthdate(day/month/year)");
-        string[] people = Console.ReadLine().Split(',');
-        DateTime dateFromString = DateTime.Parse(people[2]);
-
-        while (people[1].Length != 10)
+        Console.WriteLine("enter your mode \n 1 for crate user \n 2 for delete user \n 3 for show users \n 4 for update user  \n 5 for exite");
+        int num = int.Parse(Console.ReadLine());
+        if (num == 1)
         {
-            Console.WriteLine("enter a correct phone number");
-            people[1] = Console.ReadLine();
+            Console.WriteLine("insert name,mobile,birthdate(day/month/year)");
+            string[] people = Console.ReadLine().Split(',');
+            DateTime dateFromString = DateTime.Parse(people[2]);
+
+            while (people[1].Length != 10)
+            {
+                Console.WriteLine("enter a correct phone number");
+                people[1] = Console.ReadLine();
+
+
+            }
+            while (DateTime.Now.Subtract(dateFromString).Days < 1)
+            {
+                Console.WriteLine("enter a correct birthdate");
+                people[2] = Console.ReadLine();
+                dateFromString = DateTime.Parse(people[2]);
+
+
+
+            }
+            Person user = new Person()
+            {
+                ID = crudrepository.numberofusers() + 1,
+                FirstName = people[0],
+                Mobile = long.Parse(people[1]),
+                BirthDate = dateFromString,
+                CreateUser = DateTime.Now
+            };
+            crudrepository.Create(user);
+
 
 
         }
-        while (DateTime.Now.Subtract(dateFromString).Days < 1)
+        else if (num == 2)
         {
-            Console.WriteLine("enter a correct birthdate");
-            people[2] = Console.ReadLine();
-            dateFromString = DateTime.Parse(people[2]);
+            crudrepository.Read();
+            Console.WriteLine("enter userid for delete");
+            int id = int.Parse(Console.ReadLine());
 
-
+            crudrepository.Delete(x => x.ID == id);
+        }
+        else if (num == 3)
+        {
+            crudrepository.Read();
 
         }
-        Person user = new Person()
+        else if (num == 4)
         {
-            ID = crudrepository.numberofusers()+1,
-            FirstName = people[0],
-            Mobile = long.Parse(people[1]),
-            BirthDate = dateFromString,
-            CreateUser = DateTime.Now
-        };
-        crudrepository.Create(user);
+            crudrepository.Read();
+            Console.WriteLine("enter user id for update");
+            int id = int.Parse(Console.ReadLine());
+            Person user = crudrepository.Search(id);
+            Console.WriteLine("insert name,mobile,birthdate(day/month/year)");
+            string[] people = Console.ReadLine().Split(',');
+            DateTime dateFromString = DateTime.Parse(people[2]);
+            Person usernew = new Person()
+            {
+                ID = id,
+                FirstName = people[0],
+                Mobile = long.Parse(people[1]),
+                BirthDate = dateFromString,
+                CreateUser = DateTime.Now
+            };
+            crudrepository.Update(usernew, x => x.ID == id);
+        }
 
-
-
-    }
-    else if (num == 2)
-    {
-        crudrepository.Read();
-        Console.WriteLine("enter userid for delete");
-        int id = int.Parse(Console.ReadLine());
-        
-        crudrepository.Delete(x => x.ID==id);
-    }
-    else if (num == 3)
-    {
-        crudrepository.Read();
-
-    }
-    else if (num == 4)
-    {
-        crudrepository.Read();
-        Console.WriteLine("enter user id for update");
-        int id = int.Parse(Console.ReadLine());
-        Person user = crudrepository.Search(id);
-        Console.WriteLine("insert name,mobile,birthdate(day/month/year)");
-        string[] people = Console.ReadLine().Split(',');
-        DateTime dateFromString = DateTime.Parse(people[2]);
-        Person usernew = new Person()
+        else if (num == 5)
         {
-            ID = id,
-            FirstName = people[0],
-            Mobile = long.Parse(people[1]),
-            BirthDate = dateFromString,
-            CreateUser = DateTime.Now
-        };
-        crudrepository.Update(usernew, x => x.ID == id);
-    }
-    
-    else if(num == 5)
-    {
-        check = false;
-    }
-}while (check);
+            check = false;
+        }
+    } while (check);
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
+
 
 
 

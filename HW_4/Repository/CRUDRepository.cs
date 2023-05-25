@@ -54,7 +54,7 @@ namespace HW_4.Repository
                     stream2.Close();
                     string csvHeaderRow = String.Join(",", typeof(Person).GetProperties(BindingFlags.Public | BindingFlags.Instance).Select(x => x.Name).ToArray<string>()) + Environment.NewLine;
                     string csv = csvHeaderRow + String.Join(Environment.NewLine, jasontoobject.Select(x => x.ToString()).ToArray());
-                    string csvpath = @"E:\c project\MaktabCRUD\HW_4\person.csv";
+                    string csvpath = @"E:\c project\MaktabCRUD\HW_4\FileDataStorage.csv";
                     File.WriteAllText(csvpath, csv.ToString());
                    
                 }
